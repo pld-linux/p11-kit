@@ -5,12 +5,12 @@
 Summary:	Library and proxy module for properly loading and sharing PKCS#11 modules
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
 Name:		p11-kit
-Version:	0.9
+Version:	0.10
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
-# Source0-md5:	029aa2a3a103e7eb81b4aa731b93539e
+# Source0-md5:	6dda974e0bf993b934dcd65792dcfbb5
 URL:		http://p11-glue.freedesktop.org/p11-kit.html
 BuildRequires:	gtk-doc >= 1.15
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
