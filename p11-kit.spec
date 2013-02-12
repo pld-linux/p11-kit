@@ -5,6 +5,7 @@
 Summary:	Library and proxy module for properly loading and sharing PKCS#11 modules
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
 Name:		p11-kit
+# NOTE: 0.14 is stable, 0.15.x unstable
 Version:	0.14
 Release:	1
 License:	BSD
