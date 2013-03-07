@@ -5,15 +5,17 @@
 Summary:	Library and proxy module for properly loading and sharing PKCS#11 modules
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
 Name:		p11-kit
-# NOTE: 0.14 is stable, 0.15.x unstable
-Version:	0.14
+# NOTE: 0.16.x is stable, 0.17.x unstable
+Version:	0.16.0
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
-# Source0-md5:	e8b10a0ef1d9ebc6384ca361a70a4b02
+# Source0-md5:	4fda29bbe94dd3e8f992cb2f496908fe
 URL:		http://p11-glue.freedesktop.org/p11-kit.html
 BuildRequires:	gtk-doc >= 1.15
+BuildRequires:	libtasn1-devel >= 2.14
+Requires:	libtasn1 >= 2.14
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -58,7 +60,8 @@ Dokumentacja API biblioteki P11-KIT.
 %configure \
 	%{!?with_apidocs:--disable-gtk-doc} \
 	--disable-silent-rules \
-	--with-html-dir=%{_gtkdocdir}
+	--with-html-dir=%{_gtkdocdir} \
+	--with-system-anchors=/etc/certs/ca-certificates.crt
 %{__make}
 
 %install
@@ -70,6 +73,10 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/pkcs11/modules
 
 # obsoleted by pkg-config
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libp11-kit.la
+# dlopened module
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/pkcs11/*.la
+
+%{__mv} $RPM_BUILD_ROOT%{_sysconfdir}/pkcs11/pkcs11.conf{.example,}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -86,6 +93,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/p11-kit-proxy.so
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pkcs11/pkcs11.conf
+# XXX: shared dir (gnome-keyring, opencryptoki, opensc)
+%dir %{_libdir}/pkcs11
+%attr(755,root,root) %{_libdir}/pkcs11/p11-kit-trust.so
+%dir %{_datadir}/p11-kit
+%attr(755,root,root) %{_datadir}/p11-kit/p11-kit-extract-trust
+%dir %{_datadir}/p11-kit/modules
+%{_datadir}/p11-kit/modules/p11-kit-trust.module
 
 %files devel
 %defattr(644,root,root,755)
