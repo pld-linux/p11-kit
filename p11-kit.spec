@@ -16,6 +16,7 @@ URL:		http://p11-glue.freedesktop.org/p11-kit.html
 BuildRequires:	gtk-doc >= 1.15
 BuildRequires:	libtasn1-devel >= 2.14
 Requires:	libtasn1 >= 2.14
+Suggests:	ca-certificates
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
