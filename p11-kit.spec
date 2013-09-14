@@ -5,16 +5,20 @@
 Summary:	Library and proxy module for properly loading and sharing PKCS#11 modules
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
 Name:		p11-kit
-# NOTE: 0.18.x is stable, 0.19.x unstable
-Version:	0.18.2
+# NOTE: 0.20.x is stable, 0.21.x unstable
+Version:	0.20.1
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
-# Source0-md5:	7bb1703f38fb778054bf57477c78dc8f
+# Source0-md5:	88c651137f76a167336639371eafd8cc
 URL:		http://p11-glue.freedesktop.org/p11-kit.html
+BuildRequires:	gettext-devel
 BuildRequires:	gtk-doc >= 1.15
+BuildRequires:	libffi-devel >= 3.0.0
 BuildRequires:	libtasn1-devel >= 2.14
+BuildRequires:	pkgconfig
+BuildRequires:	pkgconfig(libffi) >= 3.0.0
 Requires:	libtasn1 >= 2.14
 Suggests:	ca-certificates
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -89,6 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/p11-kit
+%attr(755,root,root) %{_bindir}/trust
 %attr(755,root,root) %{_libdir}/libp11-kit.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libp11-kit.so.0
 %attr(755,root,root) %{_libdir}/p11-kit-proxy.so
@@ -99,7 +104,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/pkcs11
 %attr(755,root,root) %{_libdir}/pkcs11/p11-kit-trust.so
 %dir %{_libdir}/p11-kit
-%attr(755,root,root) %{_libdir}/p11-kit/p11-kit-extract-trust
+%attr(755,root,root) %{_libdir}/p11-kit/trust-extract-compat
 %dir %{_datadir}/p11-kit
 %dir %{_datadir}/p11-kit/modules
 %{_datadir}/p11-kit/modules/p11-kit-trust.module
