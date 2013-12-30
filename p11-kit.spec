@@ -19,6 +19,7 @@ BuildRequires:	libffi-devel >= 3.0.0
 BuildRequires:	libtasn1-devel >= 2.14
 BuildRequires:	pkgconfig
 BuildRequires:	pkgconfig(libffi) >= 3.0.0
+Requires:	filesystem >= 4.0-28
 Requires:	libtasn1 >= 2.14
 Suggests:	ca-certificates
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -100,8 +101,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pkcs11/pkcs11.conf
-# XXX: shared dir (gnome-keyring, opencryptoki, opensc)
-%dir %{_libdir}/pkcs11
 %attr(755,root,root) %{_libdir}/pkcs11/p11-kit-trust.so
 %dir %{_libdir}/p11-kit
 %attr(755,root,root) %{_libdir}/p11-kit/trust-extract-compat
