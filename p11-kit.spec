@@ -7,7 +7,7 @@ Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i wspó
 Name:		p11-kit
 # NOTE: 0.20.x is stable, 0.21.x unstable
 Version:	0.20.2
-Release:	1
+Release:	2
 License:	BSD
 Group:		Libraries
 Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
@@ -52,6 +52,9 @@ Summary:	P11-KIT API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki P11-KIT
 Group:		Documentation
 Requires:	gtk-doc-common
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description apidocs
 API and internal documentation for P11-KIT library.
