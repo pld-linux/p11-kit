@@ -6,12 +6,12 @@ Summary:	Library and proxy module for properly loading and sharing PKCS#11 modul
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
 Name:		p11-kit
 # NOTE: 0.20.x is stable, 0.21.x unstable
-Version:	0.20.7
+Version:	0.22.1
 Release:	1
 License:	BSD
 Group:		Libraries
 Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
-# Source0-md5:	6648cad01a3080b685b8b3bf7372c91a
+# Source0-md5:	4e9bea1106628ffb820bdad24a819fac
 URL:		http://p11-glue.freedesktop.org/p11-kit.html
 BuildRequires:	gettext-devel
 BuildRequires:	gtk-doc >= 1.15
@@ -106,6 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pkcs11/pkcs11.conf
 %attr(755,root,root) %{_libdir}/pkcs11/p11-kit-trust.so
 %dir %{_libdir}/p11-kit
+%attr(755,root,root) %{_libdir}/p11-kit/p11-kit-remote
 %attr(755,root,root) %{_libdir}/p11-kit/trust-extract-compat
 %dir %{_datadir}/p11-kit
 %dir %{_datadir}/p11-kit/modules
