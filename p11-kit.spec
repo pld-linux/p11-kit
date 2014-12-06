@@ -7,7 +7,7 @@ Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i wspó
 Name:		p11-kit
 # NOTE: 0.20.x is stable, 0.21.x unstable
 Version:	0.22.1
-Release:	1
+Release:	2
 License:	BSD
 Group:		Libraries
 Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
