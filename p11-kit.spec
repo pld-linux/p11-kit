@@ -13,7 +13,7 @@ Group:		Libraries
 Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
 # Source0-md5:	4e9bea1106628ffb820bdad24a819fac
 URL:		http://p11-glue.freedesktop.org/p11-kit.html
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	gtk-doc >= 1.15
 BuildRequires:	libffi-devel >= 3.0.0
 BuildRequires:	libtasn1-devel >= 2.14
