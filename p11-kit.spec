@@ -6,12 +6,15 @@ Summary:	Library and proxy module for properly loading and sharing PKCS#11 modul
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
 Name:		p11-kit
 # NOTE: 0.22.x is stable, 0.23.x unstable
-Version:	0.23.2
+Version:	0.23.5
 Release:	1
 License:	BSD
 Group:		Libraries
-Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
-# Source0-md5:	738af2442331fc22f440df9bee9b062a
+# last version is 0.23.2 here
+#Source0:	http://p11-glue.freedesktop.org/releases/%{name}-%{version}.tar.gz
+#Source0Download: https://github.com/p11-glue/p11-kit/releases
+Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	6f3820c458a189792afd7274c9376926
 URL:		http://p11-glue.freedesktop.org/p11-kit.html
 BuildRequires:	gettext-tools
 BuildRequires:	gtk-doc >= 1.15
@@ -104,9 +107,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pkcs11/pkcs11.conf
+%attr(755,root,root) %{_libdir}/pkcs11/p11-kit-client.so
 %attr(755,root,root) %{_libdir}/pkcs11/p11-kit-trust.so
 %dir %{_libdir}/p11-kit
 %attr(755,root,root) %{_libdir}/p11-kit/p11-kit-remote
+%attr(755,root,root) %{_libdir}/p11-kit/p11-kit-server
 %attr(755,root,root) %{_libdir}/p11-kit/trust-extract-compat
 %dir %{_datadir}/p11-kit
 %dir %{_datadir}/p11-kit/modules
