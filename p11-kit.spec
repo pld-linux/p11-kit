@@ -7,7 +7,7 @@ Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i wspó
 Name:		p11-kit
 # NOTE: 0.22.x is stable, 0.23.x unstable  ...but current stable gnutls requires 0.23.x
 Version:	0.23.10
-Release:	1
+Release:	2
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/p11-glue/p11-kit/releases
@@ -107,10 +107,10 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pkcs11/pkcs11.conf
 %attr(755,root,root) %{_libdir}/pkcs11/p11-kit-client.so
 %attr(755,root,root) %{_libdir}/pkcs11/p11-kit-trust.so
-%dir %{_libdir}/p11-kit
-%attr(755,root,root) %{_libdir}/p11-kit/p11-kit-remote
-%attr(755,root,root) %{_libdir}/p11-kit/p11-kit-server
-%attr(755,root,root) %{_libdir}/p11-kit/trust-extract-compat
+%dir %{_libexecdir}/p11-kit
+%attr(755,root,root) %{_libexecdir}/p11-kit/p11-kit-remote
+%attr(755,root,root) %{_libexecdir}/p11-kit/p11-kit-server
+%attr(755,root,root) %{_libexecdir}/p11-kit/trust-extract-compat
 %dir %{_datadir}/p11-kit
 %dir %{_datadir}/p11-kit/modules
 %{_datadir}/p11-kit/modules/p11-kit-trust.module
