@@ -6,13 +6,13 @@ Summary:	Library and proxy module for properly loading and sharing PKCS#11 modul
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
 Name:		p11-kit
 # NOTE: 0.22.x is stable, 0.23.x unstable  ...but current stable gnutls requires 0.23.x
-Version:	0.23.10
-Release:	2
+Version:	0.23.14
+Release:	1
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/p11-glue/p11-kit/releases
 Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	0692fe6245e8d2ca5cc0b49b813b0be2
+# Source0-md5:	85e1cdb5fce0087711ba2521975f0420
 URL:		https://p11-glue.github.io/p11-glue/p11-kit.html
 BuildRequires:	gettext-tools
 BuildRequires:	gtk-doc >= 1.15
@@ -20,6 +20,7 @@ BuildRequires:	libffi-devel >= 3.0.0
 BuildRequires:	libtasn1-devel >= 2.14
 BuildRequires:	pkgconfig
 BuildRequires:	pkgconfig(libffi) >= 3.0.0
+BuildRequires:	systemd-devel >= 1:209
 Requires:	filesystem >= 4.0-28
 Requires:	libtasn1 >= 2.14
 Suggests:	ca-certificates
@@ -114,6 +115,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/p11-kit
 %dir %{_datadir}/p11-kit/modules
 %{_datadir}/p11-kit/modules/p11-kit-trust.module
+%{systemduserunitdir}/p11-kit-server.service
+%{systemduserunitdir}/p11-kit-server.socket
 
 %files devel
 %defattr(644,root,root,755)
