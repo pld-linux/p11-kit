@@ -5,14 +5,14 @@
 Summary:	Library and proxy module for properly loading and sharing PKCS#11 modules
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
 Name:		p11-kit
-# NOTE: 0.22.x is stable, 0.23.x unstable  ...but current stable gnutls requires 0.23.x
-Version:	0.23.14
+# NOTE: 0.22.x is stable, 0.23.x used to be unstable  ...but current stable gnutls requires 0.23.x and 0.23.11+ is declared stable in NEWS
+Version:	0.23.15
 Release:	1
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/p11-glue/p11-kit/releases
 Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	85e1cdb5fce0087711ba2521975f0420
+# Source0-md5:	c4c3eecfe6bd6e62e436f62b51980749
 URL:		https://p11-glue.github.io/p11-glue/p11-kit.html
 BuildRequires:	gettext-tools
 BuildRequires:	gtk-doc >= 1.15
