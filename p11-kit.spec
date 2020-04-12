@@ -6,21 +6,23 @@ Summary:	Library and proxy module for properly loading and sharing PKCS#11 modul
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
 Name:		p11-kit
 # NOTE: 0.22.x is stable, 0.23.x used to be unstable  ...but current stable gnutls requires 0.23.x and 0.23.11+ is declared stable in NEWS
-Version:	0.23.18.1
+Version:	0.23.20
 Release:	1
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/p11-glue/p11-kit/releases
-Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	79480c3a2c905a74f86e885966148537
+Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/%{name}-%{version}.tar.xz
+# Source0-md5:	c9b3076475c6a57ca62005c43e77cd64
 URL:		https://p11-glue.github.io/p11-glue/p11-kit.html
-BuildRequires:	gettext-tools
+BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	gtk-doc >= 1.15
 BuildRequires:	libffi-devel >= 3.0.0
 BuildRequires:	libtasn1-devel >= 2.14
 BuildRequires:	pkgconfig >= 1:0.29
 BuildRequires:	pkgconfig(libffi) >= 3.0.0
 BuildRequires:	systemd-devel >= 1:209
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 Requires:	filesystem >= 4.0-28
 Requires:	libtasn1 >= 2.14
 Suggests:	ca-certificates
