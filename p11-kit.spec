@@ -7,7 +7,7 @@ Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i wspó
 Name:		p11-kit
 # NOTE: 0.22.x is stable, 0.23.x used to be unstable  ...but current stable gnutls requires 0.23.x and 0.23.11+ is declared stable in NEWS
 Version:	0.23.20
-Release:	2
+Release:	3
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/p11-glue/p11-kit/releases
