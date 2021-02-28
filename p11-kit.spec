@@ -56,9 +56,7 @@ Summary:	P11-KIT API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki P11-KIT
 Group:		Documentation
 Requires:	gtk-doc-common
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description apidocs
 API and internal documentation for P11-KIT library.
