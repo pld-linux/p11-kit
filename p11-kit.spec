@@ -6,13 +6,13 @@ Summary:	Library and proxy module for properly loading and sharing PKCS#11 modul
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
 Name:		p11-kit
 # NOTE: 0.22.x is stable, 0.23.x used to be unstable  ...but current stable gnutls requires 0.23.x and 0.23.11+ is declared stable in NEWS
-Version:	0.23.21
+Version:	0.23.22
 Release:	1
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/p11-glue/p11-kit/releases
 Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	db8d5509f61c73ab2ea03cc4d7bc5eef
+# Source0-md5:	03f93a4eb62127b5d40e345c624a0665
 URL:		https://p11-glue.github.io/p11-glue/p11-kit.html
 BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	gtk-doc >= 1.15
@@ -20,6 +20,8 @@ BuildRequires:	libffi-devel >= 3.0.0
 BuildRequires:	libtasn1-devel >= 2.14
 BuildRequires:	pkgconfig >= 1:0.29
 BuildRequires:	pkgconfig(libffi) >= 3.0.0
+BuildRequires:	rpm-build >= 4.6
+BuildRequires:	rpmbuild(macros) >= 1.673
 BuildRequires:	systemd-devel >= 1:209
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
@@ -64,11 +66,26 @@ API and internal documentation for P11-KIT library.
 %description apidocs -l pl.UTF-8
 Dokumentacja API biblioteki P11-KIT.
 
+%package -n bash-completion-p11-kit
+Summary:	Bash completion for p11-kit commands
+Summary(pl.UTF-8):	Bashowe uzupełnianie parametrów poleceń p11-kit
+Group:		Applications/Shells
+Requires:	%{name} = %{version}-%{release}
+Requires:	bash-completion >= 2.0
+BuildArch:	noarch
+
+%description -n bash-completion-p11-kit
+Bash completion for p11-kit commands (p11-kit and trust).
+
+%description -n bash-completion-p11-kit -l pl.UTF-8
+Bashowe uzupełnianie parametrów poleceń p11-kit (p11-kit i trust).
+
 %prep
 %setup -q
 
 %build
 %configure \
+	bashcompdir=%{bash_compdir} \
 	%{!?with_apidocs:--disable-gtk-doc} \
 	--disable-silent-rules \
 	--with-html-dir=%{_gtkdocdir} \
@@ -129,3 +146,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_gtkdocdir}/p11-kit
 %endif
+
+%files -n bash-completion-p11-kit
+%defattr(644,root,root,755)
+%{bash_compdir}/p11-kit
+%{bash_compdir}/trust
