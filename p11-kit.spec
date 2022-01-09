@@ -7,7 +7,7 @@ Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i wspó
 Name:		p11-kit
 # NOTE: 0.22.x is stable, 0.23.x used to be unstable  ...but current stable gnutls requires 0.23.x and 0.23.11+ is declared stable in NEWS
 Version:	0.23.22
-Release:	2
+Release:	3
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/p11-glue/p11-kit/releases
@@ -21,12 +21,14 @@ BuildRequires:	libtasn1-devel >= 2.14
 BuildRequires:	pkgconfig >= 1:0.29
 BuildRequires:	pkgconfig(libffi) >= 3.0.0
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 1.673
+BuildRequires:	rpmbuild(macros) >= 2.011
 BuildRequires:	systemd-devel >= 1:209
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
+Requires(post,preun):	systemd-units >= 1:250.1
 Requires:	filesystem >= 4.0-28
 Requires:	libtasn1 >= 2.14
+Requires:	systemd-units >= 1:250.1
 Suggests:	ca-certificates
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -109,7 +111,13 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/pkcs11/modules
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
+%post
+/sbin/ldconfig
+%systemd_user_post p11-kit-server.service p11-kit-server.socket
+
+%preun
+%systemd_user_preun p11-kit-server.service p11-kit-server.socket
+
 %postun	-p /sbin/ldconfig
 
 %files
