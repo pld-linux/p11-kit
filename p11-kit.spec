@@ -15,7 +15,7 @@ Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/%{name
 # Source0-md5:	03f93a4eb62127b5d40e345c624a0665
 URL:		https://p11-glue.github.io/p11-glue/p11-kit.html
 BuildRequires:	gettext-tools >= 0.19.8
-BuildRequires:	gtk-doc >= 1.15
+%{?with_apidocs:BuildRequires:	gtk-doc >= 1.15}
 BuildRequires:	libffi-devel >= 3.0.0
 BuildRequires:	libtasn1-devel >= 2.14
 BuildRequires:	pkgconfig >= 1:0.29
