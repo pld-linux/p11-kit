@@ -47,7 +47,7 @@ Summary:	Header files for P11-KIT library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki P11-KIT
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	p11-kit-static
+Obsoletes:	p11-kit-static < 0.9
 
 %description devel
 Header files for P11-KIT library.
