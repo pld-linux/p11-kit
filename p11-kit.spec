@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	apidocs		# do not build and package API docs
+%bcond_without	systemd		# systemd
 #
 Summary:	Library and proxy module for properly loading and sharing PKCS#11 modules
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
@@ -22,7 +23,7 @@ BuildRequires:	pkgconfig >= 1:0.29
 BuildRequires:	pkgconfig(libffi) >= 3.0.0
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 2.011
-BuildRequires:	systemd-devel >= 1:209
+%{?with_systemd:BuildRequires:	systemd-devel >= 1:209}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires(post,preun):	systemd-units >= 1:250.1
@@ -88,8 +89,9 @@ Bashowe uzupełnianie parametrów poleceń p11-kit (p11-kit i trust).
 %build
 %configure \
 	bashcompdir=%{bash_compdir} \
-	%{!?with_apidocs:--disable-gtk-doc} \
+	%{!?with_apidocs:--disable-doc} \
 	--disable-silent-rules \
+	%{!?with_systemd:--without-systemd} \
 	--with-html-dir=%{_gtkdocdir} \
 	--with-trust-paths=/etc/certs/ca-certificates.crt
 %{__make}
@@ -140,8 +142,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/p11-kit
 %dir %{_datadir}/p11-kit/modules
 %{_datadir}/p11-kit/modules/p11-kit-trust.module
+%if %{with systemd}
 %{systemduserunitdir}/p11-kit-server.service
 %{systemduserunitdir}/p11-kit-server.socket
+%endif
 
 %files devel
 %defattr(644,root,root,755)
