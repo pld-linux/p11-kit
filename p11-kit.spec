@@ -24,7 +24,7 @@ BuildRequires:	meson >= 0.51
 BuildRequires:	ninja
 BuildRequires:	pkgconfig >= 1:0.29
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 2.011
+BuildRequires:	rpmbuild(macros) >= 2.042
 %{?with_systemd:BuildRequires:	systemd-devel >= 1:209}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
@@ -76,7 +76,7 @@ Summary:	Bash completion for p11-kit commands
 Summary(pl.UTF-8):	Bashowe uzupełnianie parametrów poleceń p11-kit
 Group:		Applications/Shells
 Requires:	%{name} = %{version}-%{release}
-Requires:	bash-completion >= 2.0
+Requires:	bash-completion >= 1:2.0
 BuildArch:	noarch
 
 %description -n bash-completion-p11-kit
