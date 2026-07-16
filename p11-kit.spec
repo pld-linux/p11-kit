@@ -30,7 +30,7 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires(post,preun):	systemd-units >= 1:250.1
 Requires:	filesystem >= 4.0-28
-Requires:	libtasn1 >= 2.14
+Requires:	libtasn1%{?_isa} >= 2.14
 Requires:	systemd-units >= 1:250.1
 Suggests:	ca-certificates
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -49,7 +49,7 @@ PKCS#11 w taki sposób, żeby były możliwe do wykrycia.
 Summary:	Header files for P11-KIT library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki P11-KIT
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 Obsoletes:	p11-kit-static < 0.9
 
 %description devel
