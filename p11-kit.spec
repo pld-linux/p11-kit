@@ -2,25 +2,27 @@
 # Conditional build:
 %bcond_without	apidocs		# do not build and package API docs
 %bcond_without	systemd		# systemd
+%bcond_without	tests		# do not run the test suite
 #
 Summary:	Library and proxy module for properly loading and sharing PKCS#11 modules
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
 Name:		p11-kit
-Version:	0.24.1
-Release:	2
+Version:	0.26.4
+Release:	1
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/p11-glue/p11-kit/releases
 Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	67b2539bdca6b4bedaeecc12864d2796
+# Source0-md5:	4c0d2f26fd93278f5b0d22ec917cf030
 URL:		https://p11-glue.github.io/p11-glue/p11-kit.html
 BuildRequires:	gettext-tools >= 0.19.8
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.15}
 BuildRequires:	libffi-devel >= 3.0.0
 BuildRequires:	libtasn1-devel >= 2.14
 BuildRequires:	libxslt-progs
+BuildRequires:	meson >= 0.51
+BuildRequires:	ninja
 BuildRequires:	pkgconfig >= 1:0.29
-BuildRequires:	pkgconfig(libffi) >= 3.0.0
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 2.011
 %{?with_systemd:BuildRequires:	systemd-devel >= 1:209}
@@ -83,32 +85,51 @@ Bash completion for p11-kit commands (p11-kit and trust).
 %description -n bash-completion-p11-kit -l pl.UTF-8
 Bashowe uzupełnianie parametrów poleceń p11-kit (p11-kit i trust).
 
+%package -n zsh-completion-p11-kit
+Summary:	Zsh completion for p11-kit commands
+Summary(pl.UTF-8):	Zshowe uzupełnianie parametrów poleceń p11-kit
+Group:		Applications/Shells
+Requires:	%{name} = %{version}-%{release}
+Requires:	zsh
+BuildArch:	noarch
+
+%description -n zsh-completion-p11-kit
+Zsh completion for p11-kit commands (p11-kit and trust).
+
+%description -n zsh-completion-p11-kit -l pl.UTF-8
+Zshowe uzupełnianie parametrów poleceń p11-kit (p11-kit i trust).
+
 %prep
 %setup -q
 
 %build
-%configure \
-	bashcompdir=%{bash_compdir} \
-	%{!?with_apidocs:--disable-doc} \
-	--disable-silent-rules \
-	%{!?with_systemd:--without-systemd} \
-	--with-html-dir=%{_gtkdocdir} \
-	--with-trust-paths=/etc/certs/ca-certificates.crt
-%{__make}
+%meson \
+	-Dbashcompdir=%{bash_compdir} \
+	-Dzshcompdir=%{zsh_compdir} \
+	-Dbash_completion=enabled \
+	-Dzsh_completion=enabled \
+	-Dsystemd=%{?with_systemd:enabled}%{!?with_systemd:disabled} \
+	-Dtrust_paths=/etc/certs/ca-certificates.crt \
+	-Dgtk_doc=%{?with_apidocs:true}%{!?with_apidocs:false} \
+	-Dman=%{?with_apidocs:true}%{!?with_apidocs:false} \
+	-Dglib_prefix=%{_prefix} \
+	-Dtest=%{__true_false tests}
+
+%meson_build
+
+%if %{with tests}
+%meson_test
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
+%meson_install
+
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/pkcs11/modules
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-# obsoleted by pkg-config
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libp11-kit.la
-# dlopened module
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/pkcs11/*.la
-
 %{__mv} $RPM_BUILD_ROOT%{_sysconfdir}/pkcs11/pkcs11.conf{.example,}
+
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -122,13 +143,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %postun	-p /sbin/ldconfig
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/p11-kit
 %attr(755,root,root) %{_bindir}/trust
-%attr(755,root,root) %{_libdir}/libp11-kit.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libp11-kit.so.0
+%if %{with apidocs}
+%{_mandir}/man1/trust.1*
+%{_mandir}/man5/pkcs11.conf.5*
+%{_mandir}/man8/p11-kit.8*
+%endif
+%{_libdir}/libp11-kit.so.*.*.*
+%ghost %{_libdir}/libp11-kit.so.0
 %attr(755,root,root) %{_libdir}/p11-kit-proxy.so
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
@@ -149,7 +175,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libp11-kit.so
+%{_libdir}/libp11-kit.so
 %{_includedir}/p11-kit-1
 %{_pkgconfigdir}/p11-kit-1.pc
 
@@ -163,3 +189,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{bash_compdir}/p11-kit
 %{bash_compdir}/trust
+
+%files -n zsh-completion-p11-kit
+%defattr(644,root,root,755)
+%{zsh_compdir}/_p11-kit
+%{zsh_compdir}/_trust
