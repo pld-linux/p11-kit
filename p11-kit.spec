@@ -1,8 +1,9 @@
 #
 # Conditional build:
-%bcond_without	apidocs		# do not build and package API docs
-%bcond_without	systemd		# systemd
-%bcond_without	tests		# do not run the test suite
+%bcond_without	apidocs		# API documentation (gtk-doc based)
+%bcond_without	doc		# man pages
+%bcond_without	systemd		# systemd support
+%bcond_without	tests		# test suite
 #
 Summary:	Library and proxy module for properly loading and sharing PKCS#11 modules
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
@@ -15,14 +16,16 @@ Group:		Libraries
 Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/%{name}-%{version}.tar.xz
 # Source0-md5:	4c0d2f26fd93278f5b0d22ec917cf030
 URL:		https://p11-glue.github.io/p11-glue/p11-kit.html
+%{?with_doc:BuildRequires:	docbook-style-xsl}
 BuildRequires:	gettext-tools >= 0.19.8
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.15}
 BuildRequires:	libffi-devel >= 3.0.0
 BuildRequires:	libtasn1-devel >= 2.14
-BuildRequires:	libxslt-progs
+%{?with_doc:BuildRequires:	libxslt-progs}
 BuildRequires:	meson >= 0.51
-BuildRequires:	ninja
+BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig >= 1:0.29
+BuildRequires:	python3 >= 1:3.6
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 2.042
 %{?with_systemd:BuildRequires:	systemd-devel >= 1:209}
@@ -104,16 +107,16 @@ Zshowe uzupełnianie parametrów poleceń p11-kit (p11-kit i trust).
 
 %build
 %meson \
-	-Dbashcompdir=%{bash_compdir} \
-	-Dzshcompdir=%{zsh_compdir} \
 	-Dbash_completion=enabled \
-	-Dzsh_completion=enabled \
-	-Dsystemd=%{?with_systemd:enabled}%{!?with_systemd:disabled} \
-	-Dtrust_paths=/etc/certs/ca-certificates.crt \
-	-Dgtk_doc=%{?with_apidocs:true}%{!?with_apidocs:false} \
-	-Dman=%{?with_apidocs:true}%{!?with_apidocs:false} \
+	-Dbashcompdir=%{bash_compdir} \
 	-Dglib_prefix=%{_prefix} \
-	-Dtest=%{__true_false tests}
+	-Dgtk_doc=%{__true_false apidocs} \
+	-Dman=%{__true_false doc} \
+	-Dsystemd=%{__enabled_disabled systemd} \
+	-Dtest=%{__true_false tests} \
+	-Dtrust_paths=/etc/certs/ca-certificates.crt \
+	-Dzsh_completion=enabled \
+	-Dzshcompdir=%{zsh_compdir}
 
 %meson_build
 
@@ -148,19 +151,19 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS COPYING ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/p11-kit
 %attr(755,root,root) %{_bindir}/trust
-%if %{with apidocs}
+%if %{with doc}
 %{_mandir}/man1/trust.1*
 %{_mandir}/man5/pkcs11.conf.5*
 %{_mandir}/man8/p11-kit.8*
 %endif
 %{_libdir}/libp11-kit.so.*.*.*
 %ghost %{_libdir}/libp11-kit.so.0
-%attr(755,root,root) %{_libdir}/p11-kit-proxy.so
+%{_libdir}/p11-kit-proxy.so
+%{_libdir}/pkcs11/p11-kit-client.so
+%{_libdir}/pkcs11/p11-kit-trust.so
 %dir %{_sysconfdir}/pkcs11
 %dir %{_sysconfdir}/pkcs11/modules
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pkcs11/pkcs11.conf
-%attr(755,root,root) %{_libdir}/pkcs11/p11-kit-client.so
-%attr(755,root,root) %{_libdir}/pkcs11/p11-kit-trust.so
 %dir %{_libexecdir}/p11-kit
 %attr(755,root,root) %{_libexecdir}/p11-kit/p11-kit-remote
 %attr(755,root,root) %{_libexecdir}/p11-kit/p11-kit-server
