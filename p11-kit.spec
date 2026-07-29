@@ -9,7 +9,7 @@ Summary:	Library and proxy module for properly loading and sharing PKCS#11 modul
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
 Name:		p11-kit
 Version:	0.26.4
-Release:	1
+Release:	2
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/p11-glue/p11-kit/releases
@@ -131,6 +131,10 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/pkcs11/modules
 
 %{__mv} $RPM_BUILD_ROOT%{_sysconfdir}/pkcs11/pkcs11.conf{.example,}
+
+# upstream installs a placeholder meant to be replaced by the distribution's
+# update command
+ln -sf %{_sbindir}/update-ca-certificates $RPM_BUILD_ROOT%{_libexecdir}/p11-kit/trust-extract-compat
 
 %find_lang %{name}
 
