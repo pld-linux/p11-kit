@@ -8,13 +8,13 @@
 Summary:	Library and proxy module for properly loading and sharing PKCS#11 modules
 Summary(pl.UTF-8):	Biblioteka i moduł proxy do właściwego wczytywania i współdzielenia modułów PKCS#11
 Name:		p11-kit
-Version:	0.26.4
-Release:	2
+Version:	0.26.5
+Release:	1
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/p11-glue/p11-kit/releases
 Source0:	https://github.com/p11-glue/p11-kit/releases/download/%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	4c0d2f26fd93278f5b0d22ec917cf030
+# Source0-md5:	308306e889850bff08fae74ae7897a21
 URL:		https://p11-glue.github.io/p11-glue/p11-kit.html
 %{?with_doc:BuildRequires:	docbook-style-xsl}
 BuildRequires:	gettext-tools >= 0.19.8
