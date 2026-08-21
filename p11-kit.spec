@@ -1,3 +1,4 @@
+# NOTE: tests use >128 processes (256 is sufficient)
 #
 # Conditional build:
 %bcond_without	apidocs		# API documentation (gtk-doc based)
