@@ -39,6 +39,11 @@ Requires:	systemd-units >= 1:250.1
 Suggests:	ca-certificates
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%if %{with tests}
+# tests rely on asserts (in tests code only, but there are no separate CPPFLAGS)
+%define		filterout_cpp	-DNDEBUG
+%endif
+
 %description
 P11-KIT provides a way to load and enumerate PKCS#11 modules. It also
 provides a standard configuration setup for installing PKCS#11 modules
